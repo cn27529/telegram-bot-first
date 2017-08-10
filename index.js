@@ -24,7 +24,11 @@ var utc_timestamp = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTC
 var t = new Date(1502267619349);
 //var formatted = t.format("yyyy.mm.dd hh:MM:ss");
 
+//set
 var db_path = "users/" + utc_timestamp;
+
+//push
+db_path = "users/";
 
 //db root
 var ref = db.ref(db_path);
@@ -34,6 +38,6 @@ ref.push({
     username: 'name111',
     email: 'email111',
     //timestamp: now.toLocaleString()
-    timestamp: utc_timestamp
-    
+    timestamp: utc_timestamp    
 });
+
