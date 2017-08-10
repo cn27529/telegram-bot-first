@@ -13,6 +13,7 @@ bot.onText(/\/start/, message => {
 
 });
 
+//  /\/吃飯飯/
 bot.onText(/\/吃飯飯/, message => {
 
     console.log(message); // for debug
