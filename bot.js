@@ -13,8 +13,15 @@ bot.onText(/\/start/, message => {
 
 });
 
-//  /\/吃飯飯/
 bot.onText(/\/吃飯飯/, message => {
+
+    console.log(message); // for debug
+    const chatId = message.chat.id;
+    bot.sendMessage(chatId, '去你的飯飯');
+
+});
+
+bot.onText(/\/飯飯/, message => {
 
     console.log(message); // for debug
     const chatId = message.chat.id;
