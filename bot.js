@@ -57,4 +57,5 @@ bot.on('text', msg => {
     return bot.sendMessage(id, `You said: ${ text }`);
 
     return bot.sendMessage(id, `You said: ${ text }`);
+    
 });
