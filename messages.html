@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="背不起來的就寫下來吧。">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Gua&#39;s Note">
+    <meta property="og:url" content="https://guahsu.io/">
+    <meta property="og:site_name" content="Gua&#39;s Note">
+    <title>用 Vue.js + Firebase 製作即時聊天功能 | Gua's Note </title>
+    <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.4/vue.js"></script>
+</head>
+
+<body>
+
+    <style>
+        body {
+            margin-top: 48px;
+        }
+    </style>
+
+    <div id="app">
+        <template v-for="item in messages">
+                    <!-- other people -->
+                    <template v-if="item.userName != userName">
+                      <div class="messageBox">
+                        <img src="https://lorempixel.com/40/40/" class="messageBox__user" draggable="false">
+                        <div class="messageBox__content">
+                          <!-- 註解：Vue使用雙花括號{{}}來顯示script中data:的資料 -->
+                          <div class="messageBox__name">{{item.userName}}</div>
+                          <div v-if="item.type == 'text'" class="messageBox__message">
+                            <div class="messageBox__text">{{item.message}}</div>
+                            <div class="messageBox__readMore" @click="readMore($event)">顯示更多</div>
+                          </div>
+                          <div v-if="item.type == 'image'" class="messageBox__image"><img :src="item.message"></div>
+                        </div>
+                        <div class="messageBox__time">{{item.timeStamp}}</div>
+                      </div>
+                    </template>
+        <!-- 區塊：self -->
+        <template v-if="item.userName == userName">
+                      <div class="messageBox messageBox--self">
+                        <div class="messageBox__time">{{item.timeStamp}}</div>
+                        <div class="messageBox__content">
+                          <div v-if="item.type == 'text'" class="messageBox__message">
+                            <div class="messageBox__text">{{item.message}}</div>
+                          </div>
+                          <div v-if="item.type == 'image'" class="messageBox__image"><img :src="item.message"></div>
+                        </div>
+                      </div>
+                    </template>
+        </template>
+    </div>
+    <!-- built files will be auto injected -->
+</body>
+
+<script>
+    let config = {
+        apiKey: "AIzaSyB_27TotbJL9wsGD8oyWp5LtAmQPhWeSQU",
+        authDomain: "vue-chat-8083f.firebaseapp.com",
+        databaseURL: "https://vue-chat-8083f.firebaseio.com",
+        projectId: "vue-chat-8083f",
+        storageBucket: "vue-chat-8083f.appspot.com",
+        messagingSenderId: "165649429377"
+    };
+    firebase.initializeApp(config);
+
+    var messagesRef = firebase.database().ref('/messages/')
+
+    // create Vue app
+    var app = new Vue({
+        // element to mount to
+        el: '#app',
+        // initial data
+        data: {
+            // newUser: {
+            //     name: '',
+            //     email: ''
+            // },
+            messages: []
+        },
+        // firebase binding
+        // https://github.com/vuejs/vuefire
+        firebase: {
+            messages: messagesRef
+        },
+        // computed property for form validation state
+        computed: {
+            // validation: function() {
+            //     return {
+            //         name: !!this.newUser.name.trim(),
+            //         email: emailRE.test(this.newUser.email)
+            //     }
+            // },
+            // isValid: function() {
+            //     var validation = this.validation
+            //     return Object.keys(validation).every(function(key) {
+            //         return validation[key]
+            //     })
+            // }
+        },
+        // methods
+        methods: {
+
+            mounted() {
+
+                messagesRef.on('value', function(snapshot) {
+                    const val = snapshot.val();
+                    this.messages = val;
+                })
+            }
+
+        }
+    })
+</script>
+
+</html>

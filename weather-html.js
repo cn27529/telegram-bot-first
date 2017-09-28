@@ -20,7 +20,6 @@ function weather_html(url, weather_name, callback) {
 var weather_names = ['Keelung_City', 'Taipei_City', 'New_Taipei_City', 'Taoyuan_City', 'Hsinchu_County', 'Hsinchu_City', 'Miaoli_County', 'Taichung_City', 'Changhua_County', 'Nantou_County', 'Yunlin_County', 'Chiayi_County', 'Chiayi_City', 'Tainan_City', 'Kaohsiung_City', 'Pingtung_County', 'Taitung_County', 'Hualien_County', 'Yilan_County']
 
 
-
 for (var each_index in weather_names) {
     var name = weather_names[each_index]
     url = 'http://www.cwb.gov.tw/V7/forecast/taiwan/' + name + '.htm';
@@ -47,9 +46,9 @@ var db = firebase.database();
 function save2firebase(data, weather_name) {
 
     var yyyymmdd = moment().format('YYYYMMDD')
-    
+
     //set
-    var db_path = 'weathers/tw-'+yyyymmdd+'/' + weather_name
+    var db_path = 'weathers/-tw-' + yyyymmdd + '/' + weather_name
 
     //db root
     var ref = db.ref(db_path);
